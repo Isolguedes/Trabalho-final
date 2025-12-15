@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Assistente Escolar (Sem API)</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: #f4eaff;
+    font-family: Arial;
+}
+
+#chatbox {
+    height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#msgs {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.msg {
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    max-width: 80%;
+}
+
+.user {
+    background: #b388ff;
+    color: white;
+    align-self: flex-end;
+}
+
+.bot {
+    background: #d8c3ff;
+    color: #2a003f;
+    align-self: flex-start;
+}
+
+#inputArea {
+    display: flex;
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+button {
+    background: #9c6bff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div id="chatbox">
+    <div id="msgs"></div>
+
+    <div id="inputArea">
+        <input id="texto" placeholder="Digite sua mensagem...">
+        <button onclick="enviar()">Enviar</button>
+    </div>
+</div>
+
+<script>
+function addMsg(txt, tipo) {
+    const box = document.getElementById("msgs");
+    const div = document.createElement("div");
+    div.className = "msg " + tipo;
+    div.innerText = txt;
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+}
+
+window.onload = () => {
+    addMsg("Olá! 😊 Eu sou o Assistente Escolar. Como posso te ajudar?", "bot");
+};
+
+function enviar() {
+    const campo = document.getElementById("texto");
+    const msg = campo.value.trim();
+    if (!msg) return;
+
+    addMsg(msg, "user");
+    campo.value = "";
+
+    const resposta = responder(msg.toLowerCase());
+    setTimeout(() => addMsg(resposta, "bot"), 400);
+}
+
+function responder(msg) {
+
+    msg = msg.toLowerCase();
+
+    // SAUDAÇÕES
+    if (
+        msg.includes("oi") ||
+        msg.includes("olá") ||
+        msg.includes("ola") ||
+        msg.includes("bom dia") ||
+        msg.includes("boa tarde") ||
+        msg.includes("boa noite")
+    ) {
+        return "Olá! 😊 Tudo bem? Sou o Assistente Escolar. Como posso te ajudar?";
+    }
+
+    if (msg.includes("tudo bem") || msg.includes("tudo bom")) {
+        return "Tudo ótimo! 😄 Posso te ajudar com cursos, documentos, horários, avaliações, presença ou módulos.";
+    }
+
+    if (msg.includes("obrigado") || msg.includes("obrigada")) {
+        return "Por nada! 😊 Se precisar de mais alguma informação, estou à disposição.";
+    }
+
+    // DOCUMENTOS / MATRÍCULA
+    if (
+        msg.includes("documento") ||
+        msg.includes("documentos") ||
+        msg.includes("papel") ||
+        msg.includes("papéis") ||
+        msg.includes("matrícula") ||
+        msg.includes("matricula") ||
+        msg.includes("inscrição") ||
+        msg.includes("inscricao") ||
+        msg.includes("o que precisa levar")
+    ) {
+        return "📄 Para matrícula, são necessários: RG, CPF, comprovante de residência e uma foto 3x4.";
+    }
+
+    // CURSOS
+    if (
+        msg.includes("curso") ||
+        msg.includes("cursos") ||
+        msg.includes("formação") ||
+        msg.includes("formacao") ||
+        msg.includes("oferecem") ||
+        msg.includes("o que vocês oferecem") ||
+        msg.includes("quais cursos") ||
+        msg.includes("área") ||
+        msg.includes("area")
+    ) {
+        return "🎓 Os cursos oferecidos são: Técnico em Enfermagem e Desenvolvimento de Sistemas.";
+    }
+
+    // TURNOS / HORÁRIOS
+    if (
+        msg.includes("turno") ||
+        msg.includes("turnos") ||
+        msg.includes("horário") ||
+        msg.includes("horarios") ||
+        msg.includes("hora") ||
+        msg.includes("horário das aulas") ||
+        msg.includes("manhã") ||
+        msg.includes("tarde") ||
+        msg.includes("noite")
+    ) {
+        return "⏰ As aulas acontecem nos turnos da manhã, tarde e noite.";
+    }
+
+    // AVALIAÇÃO / NOTAS / MÉDIA
+    if (
+        msg.includes("nota") ||
+        msg.includes("notas") ||
+        msg.includes("avaliação") ||
+        msg.includes("avaliacao") ||
+        msg.includes("avaliações") ||
+        msg.includes("metodo") ||
+        msg.includes("prova") ||
+        msg.includes("trabalho") ||
+        msg.includes("atividade") ||
+        msg.includes("média") ||
+        msg.includes("media") ||
+        msg.includes("passar") ||
+        msg.includes("reprovar")
+    ) {
+        return "📊 A avaliação funciona assim: 4 pontos de prova, 4 pontos de trabalho em curso e 2 pontos de atividades online. A média mínima para aprovação é 6.";
+    }
+
+    // PRESENÇA / FREQUÊNCIA
+    if (
+        msg.includes("presença") ||
+        msg.includes("presenca") ||
+        msg.includes("frequência") ||
+        msg.includes("frequencia") ||
+        msg.includes("faltas") ||
+        msg.includes("faltar") ||
+        msg.includes("frequentar")
+    ) {
+        return "📝 É obrigatória a frequência mínima de 75% nas aulas para aprovação.";
+    }
+
+    // MÓDULOS
+    if (
+        msg.includes("módulo") ||
+        msg.includes("módulos") ||
+        msg.includes("modulo") ||
+        msg.includes("modulos") ||
+        msg.includes("etapas") ||
+        msg.includes("fases") ||
+        msg.includes("períodos") ||
+        msg.includes("periodos") ||
+        msg.includes("quantos módulos")
+    ) {
+        return "📚 Os cursos são organizados em 11 módulos. Para mais detalhes sobre conteúdos e disciplinas, acesse a Área do Aluno.";
+    }
+
+    // RESPOSTA PADRÃO
+    return "🤔 Não entendi muito bem. Posso te ajudar com cursos, documentos, horários, avaliações, presença ou módulos.";
+}
+</script>
+
+</body>
+</html>
